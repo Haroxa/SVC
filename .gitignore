@@ -1,0 +1,5 @@
+workenv
+__pycache__
+pretrain
+logs
+ffmpeg

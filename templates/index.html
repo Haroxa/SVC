@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVC</title>
+
+<!--    把之前用来初始化的函数都删掉了，因为不会更新页面了-->
+<!--    主要修改的地方就是把转换和载入模型的按钮类型从submit改为了button，然后用函数结合ajax向后端传数据-->
+
+<!--    不用导入jquery了！！！-->
+
+    <style>
+        .back{
+            position: fixed;  /*将图片固定，不随页面滚动*/
+            margin-top: -100px;
+            margin-left: -100px;
+            opacity: 0.10;  /*修改透明度*/
+            height: 115%;
+            width: 111%;
+            z-index: -1;  /*将图片放在最底层*/
+            /*background-size: cover;*/
+        }
+        .cards {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 1530px;
+            /*text-align: center;*/
+            margin-left: auto;
+            margin-right: auto;
+            border:2px solid;
+            border-radius: 10px;
+            border-color: gainsboro;
+            padding-top:10px;
+            padding-bottom: 10px;
+        }
+        .image{
+            margin: 0 auto;
+            display: flex;
+            padding-top: 15px;
+            width: 1430px;
+        }
+        .ima{
+            height: 150px;
+            width: 256px;
+            padding-left: 26px;
+        }
+
+        .bor{
+            border:1px solid #ccc;
+            border-radius: 4px;
+            margin: 15px;
+            padding: 5px;
+        }
+
+        .bor1{
+            border-right:1px solid #ccc;
+            border-bottom:1px solid #ccc;
+            border-radius: 5px;
+            margin: 15px;
+            padding: 5px;
+        }
+        .au{
+            margin-left: 15px;
+            margin-top: 15px;
+            width: 1400px;
+        }
+
+        input[type="file"]{
+            text-align: center;
+            color: red;
+            height: 50px;
+            width: 200px;
+            border-radius: 5px;
+            opacity:0;
+            filter:alpha(opacity=0)
+        }
+
+        .bu{
+            background-color: royalblue;
+            color:white;
+            width: 1450px;
+            height: 30px;
+            border:0;
+            font-size: 22px;
+            /*font-weight: bold;*/
+            letter-spacing: 8px;
+            box-sizing: content-box;
+            border-radius: 5px;
+            margin-left: -15px;
+        }
+        .bu:hover{
+            background-color: deepskyblue;
+        }
+
+        .choice{
+            zoom:1.5;
+            vertical-align:middle;
+        }
+
+        .choice_label{
+            font-size: 18px;
+            vertical-align:middle;
+        }
+
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        #popup {
+            width: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            text-align: center;
+            z-index: 1001;
+        }
+
+    </style>
+
+</head>
+
+<body style="font-family: Arial; transform: scale(0.91); padding-left: 5px">
+    <img src="/static/background.jpg" class="back"/>
+<!--    背景图-->
+
+    <h1 align="center" style = " line-height: 80%; margin-top: -40px">
+        歌声转换——Singing Voice Conversion
+    </h1>
+    <div align="center"  style = " line-height: 80%;">
+        成员：周豪，张一卓，黄若煊，陈肇伟，陈筱筱
+    </div>
+
+
+        <div class="cards" style="margin-top: 10px">
+            <div style="margin-left: 15px; margin-bottom: 10px">
+                欢迎使用音色转换算法（SVC），您可以在提供的五种音色模型中选择一种作为目标音色，然后确认模型，随后可上传您想转换的歌声，点击转换按钮即可。推理设备采用cpu，转换时间可能较长，请耐心等待。
+            </div>
+
+
+            <div class="bor" style="padding-top: 12px">
+
+                <div style=" margin-left: -20px; margin-top: -9px">
+                    <label class="bor1" style="font-size: 20px;">音色选择</label>
+                </div>
+
+<!--                载入音色选择的图片，图片的格式利用ima统一处理-->
+                <div class="image">
+                    <img src="/static/Adele.jpg" class="ima"/>
+                    <img src="/static/Justin_Bieber.jpg" class="ima"/>
+                    <img src="/static/Taylor_switf.jpg" class="ima"/>
+                    <img src="/static/Trump.jpg" class="ima"/>
+                    <img src="/static/voice_5.png" class="ima"/>
+                </div>
+
+<!--                表单分成了两部分，该部分会向后端提供音色的选择-->
+                <form method="POST" id="form1" action="/load_model" >
+<!--                借助表格来控制radio间距-->
+                    <div style="margin-left:20px; margin-bottom: -25px; margin-top: -18px">
+                        <table  style="border-spacing: 25px">
+                            <tbody>
+                                <tr>
+                                    <td style = "width: 256px;"><input type = "radio" id = "ad" name = "voice" value = "Adele" class="choice"> <label for = "ad" class="choice_label">Adele</label></td>
+                                    <td style = "width: 256px;"><input type = "radio" id = "ju" name = "voice" value = "Justin Bieber" class="choice"> <label for = "ju" class="choice_label">Justin Bieber</label></td>
+                                    <td style = "width: 256px;"><input type = "radio" id = "ta" name = "voice" value = "Taylor Swift" class="choice"> <label for = "ta" class="choice_label">Taylor</label></td>
+                                    <td style = "width: 256px;"><input type = "radio" id = "tr" name = "voice" value = "Trump" class="choice"> <label for = "tr" class="choice_label">Trump</label></td>
+                                    <td style = "width: 256px;"><input type = "radio" id = "me" name = "voice" value = "Melody" class="choice"> <label for = "me" class="choice_label">Melody（member）</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+<!--                模型载入提交按钮-->
+<!--                    这里改了类型，按下会执行下面的showProgress函数-->
+                    <p  style="margin-left: 25px"><input type="button" name="submit" value="确认载入模型" class="bu" style="width: 500px; margin-left: 335px; margin-right: 15px;" onclick="showProgress()" >
+                        <!--                        当前模型的提示信息-->
+                        <span style="font-family: Arial; font-size: 20px">
+                            当前模型：
+                        </span>
+
+<!--                        因为不用更新页面，直接用一个span就行，也方便我后面的函数获取这个span的值并修改-->
+                        <span style="font-family: Arial; font-size: 20px" id="model">
+                            无
+                        </span>
+                    </p>
+
+<!--                    进度条的代码，平时不显示，只有载入模型的时候显示-->
+<!--                    <div id="overlay">-->
+<!--                        <div id="popup">-->
+<!--                            <p>正在推理，请稍等...</p>-->
+<!--                            <progress id="progressBar" value="0" max="98"></progress>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </form>
+            </div>
+
+
+<!--    该部分表单向后端提交变调信息以及音源文件-->
+<!--    表单均不会向后端直接提交，所以都没有onsubmit函数了-->
+        <form method="POST" action="" id="form2" enctype="multipart/form-data">
+<!--            变调信息输入，默认值为0，若输入框为空，后端自动处理为0，且前端有提示信息-->
+            <div id="overlay">
+                <div id="popup">
+                    <p>正在推理，请稍等...</p>
+                    <progress id="progressBar" value="0" max="98"></progress>
+                </div>
+            </div>
+            <div class="bor">
+                <label style="font-size: 16px">变调（可以是正负整数。由于男女歌手音域的差异，需要通过适当变调来提升音色的相似性。12即代表一个8度，注：在音色为女声，待转音频为男声时，变调采用正整数，反之则采用负整数。）</label>
+                <input type="text" placeholder="为空将默认为0" name="voice_change" id="voice_change" style="width: 1470px; height: 20px; border:1px solid #ccc; border-radius: 3px; margin-bottom:8px; margin-top: 8px">
+            </div>
+
+
+<!--            一个tag-->
+            <span style="overflow: auto; border-right:1px solid #ccc; border-left:1px solid #ccc; border-top:1px solid #ccc; margin-left: 15px; font-size: 18px">音频上传及转换</span><br>
+
+
+            <div class="bor" style="margin-top: -2px; padding: 3px">
+
+                <div class="bor" style="margin-top: 5px; margin-left: 5px; background-color: aliceblue">
+<!--                    同样是tag-->
+                    <div style=" margin-left: -20px; margin-top: -2px">
+                        <label class="bor1" style="font-size: 20px; ">音频上传</label>
+                    </div>
+
+<!--                    音乐图标-->
+                    <img src="/static/audio_icon.png" style="margin-left: 48.5%; height: 40px; width: 40px; margin-top: -15px" />
+
+<!--                    有关上传音频的文本提示-->
+                    <label style="text-align: center; font-size: 16px;line-height: 70%;">
+                        <p style="margin-top: -2px">
+                            <span>请点击下方</span><span style="font-weight: bold">「上传音频文件」</span><span>，上传要转换的音频</span>
+                        </p>
+                        <p>（仅支持mp3和wav格式）</p>
+                    </label>
+
+<!--                    用button覆盖原本的选择文件按钮，实现美化-->
+<!--                    其实是把选择文件按钮设置成了透明的-->
+                    <button style="margin-left: 43%; height: 50px; width: 200px; padding: 0px; background-color: skyblue; border-color: #53a4f0">
+                        <div style="padding-top: 10px">
+                            <label style="color: white; font-size: 20px; font-weight: 550; font-family: 'Microsoft YaHei UI'; letter-spacing: 3px;">上传音频文件</label>
+                        </div>
+                        <div style="margin-top: -40.5px">
+                            <input type="file" id="file" name="file" accept=".mp3, .wav" onchange="onInputFileChange()">
+<!--                            在选择文件的按钮上在上onInputFileChange函数，可以实现音频同步预览-->
+                        </div>
+                    </button>
+
+<!--                    输入的音频播放器，src直接改为空的，会利用函数更改src-->
+                    <audio controls class="au" src ="" id="audio">
+<!--                        接受mp3和wav格式的音频-->
+                        <source id="input_file" type="audio/mpeg">
+                        <source id="input_file1" type="audio/wav">
+                    </audio>
+                </div>
+
+
+<!--                转换按钮，改了类型，并不直接提交表单，会调用changeOnClick函数-->
+                <p  style="margin-left: 25px"><input type="button" name="submit" value="转换" class="bu" onclick="changeOnClick()" ></p>
+
+
+                <div class="bor" style="margin-top: 5px; margin-left: 5px; padding-bottom: 30px; background-color: honeydew;">
+<!--                    一个tag-->
+                    <div style=" margin-left: -20px; margin-top: -2px">
+                        <label class="bor1" style="font-size: 20px;">成果输出</label>
+                    </div>
+
+<!--                直接用一个audio，初始设置为空，之后会根据函数修改-->
+                    <div>
+                        <audio controls src="" id="output" class="au"></audio>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <script>
+        function onInputFileChange()
+        {
+            // 用户点击了选择文件的按钮后自动调用该函数
+            // 该函数读取用户上传的文件
+            // 并将文件随机src传给audio播放器，实现播放器播放音频
+            var file = document.getElementById('file').files[0];
+            document.getElementById('audio').src = URL.createObjectURL(file);
+        }
+
+
+        function submitOnClick()
+        {
+            // 提交前的检查函数
+            // 如果缺少某些信息，会弹出alert，提示用户，并不向后端提交表单
+            // 若不缺少，则会弹出正在转换的信息
+            var voice_model = document.getElementById("model").innerText;
+
+            // 借助当前模型后面的字来判断是否有模型载入
+            if (voice_model == "无")
+            {
+                // 如果当前没有模型载入到CPU上
+                // 判断是否有选择音色
+                voice_temp = null;
+                obj = document.getElementsByName('voice');
+                for (var i = 0; i < obj.length; i++)
+                {
+                    if (obj[i].checked)
+                    {
+                        voice_temp = obj[i].value;
+                        break;
+                    }
+                }
+                if (voice_temp == null)
+                {//有选择音色，但是并没有载入模型
+                    alert("请先选择音色，并载入模型!!!");
+                }
+                else
+                {//没有选择音色
+                    alert("请确认载入模型!!!");
+                }
+                return false;
+            }
+            else
+            {
+                // 模型已经载入好了
+                // 判断是否有音源文件
+                var file = document.getElementById('file').files[0];
+                if (file != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    alert("请传入音源文件");
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+
+        function showProgress()
+        {
+            // 按下确认模型后调用该函数
+
+            // 定位到选择的选项
+            var voice_temp = null;
+            obj = document.getElementsByName('voice');
+            for (var i = 0; i < obj.length; i++)
+            {
+                if (obj[i].checked)
+                {
+                    voice_temp = obj[i].value;
+                    break;
+                }
+            }
+
+            if (voice_temp == null)
+            {
+                //没有选择就按了按钮
+                alert("请选择音色后再确定载入模型!!!");
+                return false;
+            }
+
+            showNotification("正在载入模型，请稍后...", 1500);
+
+            // 向后端传入音色数据
+            var formData = new FormData();
+            formData.append("voice", voice_temp);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/load_model', true);
+            xhr.withCredentials = true;
+            xhr.send(formData);
+            xhr.onload = function () {
+                xhr.responseText
+            }
+            xhr.addEventListener('loadend', function (){
+                if (xhr.status == 201)
+                {
+                    // 后端载入模型结束，就把当前模型的文字给改掉
+                    document.getElementById("model").innerHTML = voice_temp;
+                    alert(voice_temp + "声线模型已载入完成!!!");
+                }
+                else
+                {
+                    alert(voice_temp + "声线模型载入失败!!!");
+                }
+            })
+        }
+
+
+        function changeOnClick()
+        {
+            // 按下转换按钮，调用此函数
+
+            // 先检查内容是否完整（包括模型是否载入，音色是否选择和音源文件是否上传）
+            var check = submitOnClick();
+
+            if (check == false)
+            {
+                return;
+            }
+            else
+            {
+                // 数据完整，就可以传入后端了
+
+                // 将变调信息和音源文件都加入到要传的数据中
+                // 向后端传的是formData类数据
+                var formData = new FormData();
+                var file1 = document.getElementById('file').files[0];
+                var voice_change = document.getElementById('voice_change').value;
+                formData.append("voice_change", voice_change);
+                formData.append("input_files", file1);
+
+                // 把进度条设置成可见的
+                var progressBar = document.getElementById('progressBar');
+                progressBar.value = 0;
+                document.getElementById('overlay').style.display = 'block';
+
+                //设定的每隔0.5秒就调用一次后端的/show_progress
+                var sitv = setInterval(function(){
+                    var x = new XMLHttpRequest();
+                    x.open('POST', '/show_progress', true);
+                    x.withCredentials = true;
+                    x.send();
+                    x.addEventListener('loadend', function () {
+                        if (x.status == 201) {
+                            var res = JSON.parse(x.responseText);
+                            progressBar.value = res.time;
+                            if (res.time == 100)
+                            {
+                                document.getElementById('overlay').style.display = 'none';
+                                clearInterval(sitv);//这个是结束这个函数，不再查询后端进度
+                            }
+                        }
+                        else
+                        {
+                            alert("转换发生错误!!!");
+                            document.getElementById('overlay').style.display = 'none';
+                            clearInterval(sitv);//这个是结束这个函数，不再查询后端进度
+                        }
+                    })
+                }, 5000);// 每5秒查询一次后台进度
+                //如果后端已经完成了
+                            
+
+
+                // 这里ajax传输数据的代码变了！！！
+                // 导入音色和导入文件的提交方式一样了（是为了方便搞进度条的）
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/load_file', true);
+                xhr.withCredentials = true;
+                xhr.send(formData);
+                xhr.onload = function () {
+                    xhr.responseText
+                }
+                xhr.addEventListener('loadend', function (){
+                    if (xhr.status == 201)
+                    {
+                        // 后端成功返回信息
+                       alert("转换成功!!!");
+                       // 把后端返回的成品src改到成品输出的audio上，就实现成品展示了
+                       //  alert(JSON.parse(xhr.responseText).output_file)
+                        //在这卡了半天，一直把output_file放在括号里面，然后一直不行，真服了我自己
+                       document.getElementById("output").src = JSON.parse(xhr.responseText).output_file;
+                    }
+                })
+            }
+        }
+
+        // 这个函数又回来了
+        function showNotification(message, duration) {
+            // 设置会自动消失的提示信息，message是内容，duration是时间
+            // 其实只用在了表单提交成功的时候
+            var notification = document.createElement('span');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.position = "absolute";
+            notification.style.top = "43%";
+            notification.style.left = "38%";
+            notification.style.border = "1px solid F8F8F8";
+            notification.style.fontSize = "22px";
+            notification.style.fontStyle = "Arial";
+            notification.style.textAlign = "center";
+            notification.style.height = "75px";
+            notification.style.width = "400px";
+            notification.style.paddingTop = "53px";
+            notification.style.backgroundColor = "LightGoldenRodYellow";
+            notification.style.boxShadow = "0 4px 8px 0 rgba(0,0,0,0.2)";
+            notification.style.borderRadius = "8px";
+
+            document.body.appendChild(notification);
+            setTimeout(function () {
+                notification.style.opacity = 0;
+                setTimeout(function () {
+                document.body.removeChild(notification);
+                }, 1000);
+            }, duration);
+        }
+
+    </script>
+</body>
+</html>
