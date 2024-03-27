@@ -3,7 +3,7 @@ torch
 torchaudio
 librosa
 soundfile
-gradio==4.14
+gradio==4.14.0
 psutil
 fairseq
 faiss-cpu
