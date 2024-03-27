@@ -48,3 +48,6 @@ for n in name:
 from app import onnx_export_func
 onnx_export_func()
 ```
+
+### 注意事项
+由于 pretrain、logs、ffmpeg 文件夹过大，无法直接上传到 github，暂时采用网盘的方式存储，网盘链接：https://pan.baidu.com/s/1Yo_Z_4SHZtUlQOu3aOiy2Q?pwd=bw34
