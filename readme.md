@@ -11,6 +11,7 @@ workenv\Scripts\activate
 ```cmd
 check_requirements.bat
 ```
+> 可以直接使用 `init_workenv.bat` 来初始化环境，初始化过程大概5分钟左右
 
 ### 项目打包
 安装相关库
