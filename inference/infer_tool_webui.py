@@ -27,6 +27,10 @@ logging.getLogger('matplotlib').setLevel(logging.WARNING)
 
 kk=0
 DataLen =0
+
+InferJd = {
+    'i':1, 'len':1,
+}
 # def read_temp(file_name):
 #     if not os.path.exists(file_name):
 #         with open(file_name, "w") as f:
@@ -464,10 +468,13 @@ class Svc(object):
         global_frame = 0
         audio = []
 
+        InferJd['i'] = 0
+        InferJd['len'] = len(audio_data)
         for (slice_tag, data) in tqdm(audio_data):
-            #print(f'#=====segment start, {round(len(data) / audio_sr, 3)}s======')
+            # print(f'#=====segment start, {round(len(data) / audio_sr, 3)}s======')
+            # print(f"k={k}, target={target}, i={i}, ilen={ilen}")
             # padd
-
+            InferJd['i'] += 1
             length = int(np.ceil(len(data) / audio_sr * self.target_sample))
             if slice_tag:
                 #print('jump empty segment')

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIGA-README</title>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+
+        p{
+            line-height: 30px;
+        }
+
+        h2{
+            font-size: 30px;
+            margin-bottom: -10px;
+            margin-top: 25px;
+        }
+
+
+        .sidebar {
+            float: left;
+            width: 100px;
+            margin-left: -100px;
+            margin-top: -43px;
+            height: 1050px;
+            background-color: #2c3e50;
+            overflow: hidden;
+            transition: 0.8s all;
+        }
+
+        .side {
+            margin-left: -10px;
+        }
+
+        /*靠边*/
+        .sidebar ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*去点*/
+        .sidebar ul li {
+            list-style: none;
+        }
+
+        /*去下划线*/
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            height: 80px;
+            width: 100%;
+            font-size: 40px;
+            line-height: 80px;
+            text-align: center;
+            display: block;
+            transition: 0.6s all;
+        }
+
+        .sidebar ul li a:hover {
+            background: #95a5a6;
+        }
+        .btn {
+            float: left;
+            padding: 0 10px;
+            font-size: 40px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-family: Ionicons;
+            cursor: pointer;
+        }
+
+        .btn:before {
+            display: inline-block;
+            background: url("/static/icon/导航栏.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
+        }
+
+        .btnc:before {
+            display: inline-block;
+            background: url("/static/icon/返回.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
+        }
+
+        .top{
+             /* 设置宽度高度背景颜色 */
+            height: auto; /*高度改为自动高度*/
+            width:102%;
+            margin-left: -15px;
+            background: slategray;
+            position: fixed; /*固定在顶部*/
+            top: 0;/*离顶部的距离为0*/
+            margin-bottom: 5px;
+        }
+
+        .top ul{
+            /* 清除ul标签的默认样式 */
+            width: auto;/*宽度也改为自动*/
+            list-style-type: none;
+            white-space:nowrap;
+            overflow: hidden;
+            margin-left: 80%;
+            /* margin-top: 0;          */
+            padding: 0;
+
+        }
+        .top li {
+            float:left; /* 使li内容横向浮动，即横向排列  */
+            margin-right:2%;  /* 两个li之间的距离*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top li a{
+           /* 设置链接内容显示的格式*/
+            display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+            color:white;
+            text-align: center;
+            /*padding: -1px;*/
+            overflow: hidden;
+            text-decoration: none; /* 去除下划线 */
+
+        }
+        .top li a:hover{
+            /* 鼠标选中时背景变为黑色 */
+            background-color: darkseagreen;
+        }
+
+
+    </style>
+
+</head>
+<body style="font-family: 华文楷体, 华文宋体,微软雅黑; height: 100%">
+    <div class="sidebar">
+        <ul>
+            <li><a href="startup.html">
+                <img src="/static/icon/首页.png" style="width: 50px; height: 50px;"/>
+                <p style="margin-top: -35px; font-size: 18px;">首页</p>
+            </a></li>
+            <li><a class="ion-ios-game-controller-b" href="readme.html">
+                <img src="/static/icon/使用文档.png" style="width: 30px; height: 30px; margin-top: -15px;"/>
+                <p style="margin-top: -35px; font-size: 18px; font-family: Consolas">README</p>
+            </a></li>
+            <li><a class="ion-social-twitter" href="voice.html">
+                <img src="/static/icon/音符.png" style="width: 33px; height: 33px; margin-left: -5px; margin-top: -10px"/>
+                <p style="margin-top: -30px; margin-left: -5px; font-size: 18px;">音色</p>
+            </a></li>
+            <li><a class="ion-social-twitter" target="_blank" href="video.html">
+                <img src="/static/icon/视频.png" style="width: 35px; height: 35px; margin-left: -5px;"/>
+                <p style="margin-top: -30px; font-size: 18px; margin-left: -5px;">视频教程</p>
+            </a></li>
+        </ul>
+    </div>
+    <a class="btn" style="margin-top: -10px;"></a>
+ <div style=" padding-left: 330px; padding-right: 300px;">
+        <h1 style="margin-top: 50px;">VIGA 歌声转换模型</h1>
+    <p style="line-height: 30px;">
+        本次项目主要以UVR5作为数据清洗工具，SoftVC VITS Singing Voice Conversion模型作为提取源音频特征模型，F0+VITS模型替换源文本输入作为替换模型,使用变分推理与对抗式神经网络算法(Variational Inference and Generative Adversarial Network，简称VIGA Network)进行基于深度学习的推理框架实现。
+    </p>
+    <h2 style="font-size: 30px;">前言</h2>
+    <p style="line-height: 30px;">
+        在当今数字时代，音频处理技术的迅速发展为人们带来了许多创新和可能性。其中，歌声转换技术作为音频处理领域的一个重要分支，吸引了广泛的关注和兴趣。
+    </p>
+    <h2>使用</h2>
+    <p>
+        本项目为离线项目，可在PC端进行操作。用户在下载完本项目文件包后，在本地打开可执行文件，根据命令行提示打开对应端口即可访问可视化操作界面。操作界面十分简单明了，用户只需按照以下操作即可实现目标音色的转换：
+    </p>
+    <p style="margin-left: 30px; font-weight: bold; font-size: 18px;">
+        ● 从五种提供的音色中选择并确认目标音色<br>
+        ● 根据男女音色的差异选择合适的变调参数<br>
+        ● 上传待转换的音频，可以是.wav或.mp3格式<br>
+        ● 点击转换按钮等待界面提示音色转换完成
+    </p>
+    <p>音频转换完成后用户可以试听转换后的音频，输出音频UI界面中提供调节播放速度以及下载音频的功能。</p>
+    <h2>工具</h2>
+    <p>本系统采用C/S架构，客户端负责服务器数据处理，实现了音色转换。在算法模型中，我们主要使用PyTorch框架进行开发和训练，使用语言是Python，服务端上我们采用了Flask框架进行开发，使用语言是Python，HTML，CSS以及JavaScript。</p>
+    <h2>对象</h2>
+    <p>本项目整合了前后端代码，因此用户需要下载已打包好的项目文件，运行其中可执行文件，即可进入服务端进行操作。正因如此，用户需要在PC机上使用。由于模型是使用CPU进行推理，因此对机器的GPU性能没有强制要求，可适用性广。</p>
+    <h2>联系我们</h2>
+    <p style="margin-bottom: 50px;">暂时保密哦！</p>
+ </div>
+
+    <script type="text/javascript">
+        $('.btn').on('click',function () {
+            $('.btn').toggleClass('btnc');
+            $('.sidebar').toggleClass('side');
+
+        })
+    </script>
+
+
+</body>
+</html>

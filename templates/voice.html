@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIGA-voice</title>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+
+        .cir
+        {
+            border-radius: 80%;
+            width:120px;
+            border:1px solid #95a5a6;
+            height: 60px;
+            margin: auto;
+            box-shadow: 10px 10px 10px #666666;
+            padding-top: 60px;
+        }
+        .cir_font
+        {
+            margin-top: -20px;
+            margin-left: 28px;
+            margin-right: 60px;
+            color: royalblue;
+            text-shadow:  1px 1px 1px #666666;
+            font-weight: bold;
+            font-size: 28px;
+        }
+        .intro
+        {
+            /*position: relative;*/
+            border-radius: 80%;
+            /*float: left;*/
+            width:120px;
+            height: 120px;
+            border:1px solid #95a5a6;
+            background: white;
+            display: none;
+            z-index: -1;
+            /*display: none;*/
+            /*transition-property:width,background,z-index,height;*/
+            /*transition-duration:1s;*/
+            transition: all 0.8s;
+
+        }
+
+        .intro_appear
+        {
+            z-index: 999999;
+            /*position: relative;*/
+            position: fixed;
+            /*display: flex;*/
+            top: 300px;
+            left: 470px;
+            background: white;
+
+            width: 700px;
+            height: 530px;
+            border-radius: 10%;
+            border:1px solid #95a5a6;
+            display: flex;
+            /*transition-property:width,background, z-index, height;*/
+            /*transition-duration:1s;*/
+            transition: all 0.8s;
+        }
+
+        .bjimg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            object-fit: cover;
+            opacity: 8%;
+        }
+
+
+        .image
+        {
+            width: 180px;
+            height: 110px;
+        }
+
+
+        .sidebar {
+            float: left;
+            width: 100px;
+            margin-left: -100px;
+            margin-top: -17px;
+            height: 860px;
+            background-color: #2c3e50;
+            overflow: hidden;
+            transition: 0.8s all;
+        }
+
+        .side {
+            margin-left: -10px;
+        }
+
+        /*靠边*/
+        .sidebar ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*去点*/
+        .sidebar ul li {
+            list-style: none;
+        }
+
+        /*去下划线*/
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            height: 80px;
+            width: 100%;
+            font-size: 40px;
+            line-height: 80px;
+            text-align: center;
+            display: block;
+            transition: 0.6s all;
+        }
+
+        .sidebar ul li a:hover {
+            background: #95a5a6;
+        }
+        .btn {
+            float: left;
+            padding: 0 10px;
+            font-size: 40px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-family: Ionicons;
+            cursor: pointer;
+        }
+
+        .btn:before {
+            display: inline-block;
+            background: url("/static/icon/导航栏.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
+        }
+
+        .btnc:before {
+            display: inline-block;
+            background: url("/static/icon/返回.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
+        }
+
+        .top{
+             /* 设置宽度高度背景颜色 */
+            height: auto; /*高度改为自动高度*/
+            width:102%;
+            margin-left: -15px;
+            background: slategray;
+            position: fixed; /*固定在顶部*/
+            top: 0;/*离顶部的距离为0*/
+            margin-bottom: 5px;
+        }
+
+        .top ul{
+            /* 清除ul标签的默认样式 */
+            width: auto;/*宽度也改为自动*/
+            list-style-type: none;
+            white-space:nowrap;
+            overflow: hidden;
+            margin-left: 80%;
+            /* margin-top: 0;          */
+            padding: 0;
+
+        }
+        .top li {
+            float:left; /* 使li内容横向浮动，即横向排列  */
+            margin-right:2%;  /* 两个li之间的距离*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top li a{
+           /* 设置链接内容显示的格式*/
+            display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+            color:white;
+            text-align: center;
+            padding: 3px;
+            overflow: hidden;
+            text-decoration: none; /* 去除下划线 */
+
+        }
+        .top li a:hover{
+            /* 鼠标选中时背景变为黑色 */
+            background-color: darkseagreen;
+        }
+    </style>
+
+</head>
+<body style="min-width: 1200px;">
+    <video src="/static/startback1_1.mp4" class="bjimg" autoplay loop muted></video>
+        <div class="sidebar" style="font-family: 华文楷体, 华文宋体">
+            <ul>
+                <li><a href="startup.html">
+                    <img src="/static/icon/首页.png" style="width: 45px; height: 45px;"/>
+                    <p style="margin-top: -62px; font-size: 18px;">首页</p>
+                </a></li>
+                <li><a class="ion-ios-game-controller-b" href="readme.html">
+                    <img src="/static/icon/使用文档.png" style="width: 30px; height: 30px;"/>
+                    <p style="margin-top: -55px; font-size: 18px; font-family: Consolas">README</p>
+                </a></li>
+                <li><a class="ion-social-twitter" href="voice.html">
+                    <img src="/static/icon/音符.png" style="width: 35px; height: 35px; margin-left: -5px;"/>
+                    <p style="margin-top: -50px; font-size: 18px; margin-left: -5px;">音色</p>
+                </a></li>
+                <li><a class="ion-social-twitter" href="video.html">
+                    <img src="/static/icon/视频.png" style="width: 35px; height: 35px; margin-left: -5px;"/>
+                    <p style="margin-top: -60px; font-size: 18px; margin-left: -5px;">视频教程</p>
+                </a></li>
+
+            </ul>
+        </div>
+        <a class="btn"></a>
+<h1 style="margin-left: 46%; font-family: 华文楷体, 华文宋体;" id="title">音色介绍</h1>
+    <p style="margin-left: 100px; margin-right: 100px; font-family: 华文楷体, 华文宋体; font-size: 18px;">本系统提供了五种音色供用户选择，分别为Adele，Justin Bieber，Taylor Swift，Trump和一位神秘的开发成员的音色。为方便用户选择音色，该页面提供了五种音色的详细介绍。<br></p>
+    <p style="margin-left: 100px; margin-bottom: 250px; margin-top: -16px; margin-right: 100px; font-family: 华文楷体, 华文宋体; font-size: 18px;">用户可点击下方音色名称，查看音色详细介绍<br></p>
+
+
+    <div class="cir" style="position: relative; margin: auto">
+        <p class="cir_font" style="font-family: 微软雅黑">
+            VIGA
+        </p>
+
+
+        <div class="cir" style="position: relative; top: -250px;" onclick="divOnClick('adele')">
+            <p class="cir_font" style="margin-left: 23px; color: darkorchid; font-family: 微软雅黑">
+                Adele
+            </p>
+            <div class="intro" id="adele" style="margin-top: -106px;" >
+                <div id="adeleinfo" style="display: none">
+                    <img src="/static/icon/关闭.png" style="width: 40px; height: 40px; margin-top: 20px; margin-left: 630px;" onclick="event.cancelBubble = true,closeOnClick('adele')"/>
+                    <br>
+                    <div>
+                        <img src="/static/Adele.jpg" class="image" style="float: left; margin-left: 30px;"/>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">阿黛尔·阿德金斯（Adele Adkins），1988年5月5日出生于英国伦敦托特纳姆，英国流行乐女歌手、词曲作者。<br> </p>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">代表作品： 《Rolling in the Deep》《Someone Like You》，《Set Fire To The Rain》，《Rumour Has It》，《Chasing Pavements》 </p>
+                    </div>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-top: 30px; margin-left: 52px;">歌手歌曲1：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px;margin-left: 52px; margin-top: 5px;">歌手歌曲2：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-left: 52px; margin-top: 5px;">歌手歌曲3：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px;"></audio>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="cir" style="position: relative; right: 155px; bottom: 220px;"  onclick="divOnClick('justin')">
+            <p class="cir_font" style="margin-top: -40px; margin-left: 20px; color: cadetblue; font-family: 微软雅黑">
+                Justin<br>Bieber
+            </p>
+            <div class="intro" id="justin" style="margin-top: -122px;" >
+                <div id="justininfo" style="display: none">
+                    <img src="/static/icon/关闭.png" style="width: 40px; height: 40px; margin-top: 20px; margin-left: 630px;" onclick="event.cancelBubble = true,closeOnClick('justin')"/>
+                    <br>
+                    <div>
+                        <img src="/static/Justin_Bieber.jpg" class="image" style="float: left; margin-left: 30px;"/>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">贾斯汀·比伯（Justin Bieber），1994年3月1日出生于加拿大安大略省斯特拉特福市，加拿大流行乐男歌手、影视演员。<br> </p>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">代表作品：《Boyfriend》，《What Do You Mean?》，《Where Are U Now》，《Love Yourself》</p>
+                    </div>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-top: 20px; margin-left: 52px;">歌手歌曲1：</p>
+                    <audio src="/static/audio/Justin_Bieber.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px;margin-left: 52px; margin-top: 5px;">歌手歌曲2：</p>
+                    <audio src="/static/audio/Justin_Bieber.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-left: 52px; margin-top: 5px;">歌手歌曲3：</p>
+                    <audio src="/static/audio/Justin_Bieber.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px;"></audio>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cir" style="position: relative; bottom: 350px; left: 155px;" onclick="divOnClick('taylor')">
+            <p class="cir_font" style="margin-left: 20px; margin-top: -38px; color: indianred; font-family: 微软雅黑">
+                Taylor<br>Swift
+            </p>
+            <div class="intro" id="taylor" style="margin-top: -124px;" >
+                <div id="taylorinfo" style="display: none">
+                    <img src="/static/icon/关闭.png" style="width: 40px; height: 40px; margin-top: 20px; margin-left: 630px;" onclick="event.cancelBubble = true,closeOnClick('taylor')"/>
+                    <br>
+                    <div>
+                        <img src="/static/Taylor_switf.jpg" class="image" style="float: left; margin-left: 30px;"/>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">泰勒·斯威夫特（Taylor Swift），1989年12月13日出生于美国宾夕法尼亚州，美国女歌手、词曲作者、音乐制作人、演员。<br> </p>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">代表作品：《You Need to Calm Down》，《All too well》，《Love Story》，《Back to December》</p>
+                    </div>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-top: 30px; margin-left: 52px;">歌手歌曲1：</p>
+                    <audio src="/static/audio/Taylor_Swift.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px;margin-left: 52px; margin-top: 5px;">歌手歌曲2：</p>
+                    <audio src="/static/audio/Taylor_Swift.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-left: 52px; margin-top: 5px;">歌手歌曲3：</p>
+                    <audio src="/static/audio/Taylor_Swift.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px;"></audio>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cir" style="position: relative; bottom: 320px; right: 80px;" onclick="divOnClick('trump')">
+            <p class="cir_font" style="margin-left: 18px; color: chocolate; font-family: 微软雅黑">
+                Trump
+            </p>
+                <div class="intro" id="trump" style="margin-top: -105px;" >
+                <div id="trumpinfo" style="display: none">
+                    <img src="/static/icon/关闭.png" style="width: 40px; height: 40px; margin-top: 20px; margin-left: 630px;" onclick="event.cancelBubble = true,closeOnClick('trump')"/>
+                    <br>
+                    <div>
+                        <img src="/static/Trump.jpg" class="image" style="float: left; margin-left: 30px;"/>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 20px; margin-left: 250px; margin-right: 20px;">唐纳德·特朗普（Donald Trump，1946年6月14日—），出生于美国纽约，祖籍德国巴伐利亚自由州 [1]，德裔美国共和党籍政治家、企业家、房地产商人、电视人 [2]，第45任美国总统（2017年1月20日—2021年1月20日）。<br> </p>
+<!--                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">代表作品 </p>-->
+                    </div>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-top: 50px; margin-left: 52px;">歌手歌曲1：</p>
+                    <audio src="/static/audio/Trump.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px;margin-left: 52px; margin-top: 5px;">歌手歌曲2：</p>
+                    <audio src="/static/audio/Trump.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-left: 52px; margin-top: 5px;">歌手歌曲3：</p>
+                    <audio src="/static/audio/Trump.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px;"></audio>
+                </div>
+            </div>
+        </div>
+        <div class="cir" style="position: relative; bottom: 440px; left: 80px;" onclick="divOnClick('melody')">
+            <p class="cir_font" style="margin-left: 8px; color: mediumseagreen; font-family: 微软雅黑">
+                Melody
+            </p>
+            <div class="intro" id="melody" style="margin-top: -105px;" >
+                <div id="melodyinfo" style="display: none">
+                    <img src="/static/icon/关闭.png" style="width: 40px; height: 40px; margin-top: 20px; margin-left: 630px;" onclick="event.cancelBubble = true,closeOnClick('melody')"/>
+                    <br>
+                    <div>
+                        <img src="/static/voice_5.png" class="image" style="float: left; margin-left: 30px;"/>
+                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 20px; margin-left: 250px; margin-right: 20px;">Melody，开发团队中一位不愿透露姓名和照片的神秘成员。具有优美的音色及强大的编程能力。<br> </p>
+<!--                        <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 17px; margin-top: 2px; margin-left: 250px; margin-right: 20px;">代表作品： 《Rolling in the Deep》《Someone Like You》，《Set Fire To The Rain》，《Rumour Has It》，《Chasing Pavements》 </p>-->
+                    </div>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-top: 80px; margin-left: 52px;">歌手歌曲1：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px;margin-left: 52px; margin-top: 5px;">歌手歌曲2：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px"></audio>
+                    <p style="font-family: 华文楷体, 华文宋体; font-weight: bold; font-size: 20px; margin-left: 52px; margin-top: 5px;">歌手歌曲3：</p>
+                    <audio src="/static/audio/Adele.mp3" controls style="margin-left: 50px; margin-top: -15px; width: 580px;"></audio>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <script type="text/javascript">
+        $('.btn').on('click',function () {
+            $('.btn').toggleClass('btnc');
+            $('.sidebar').toggleClass('side');
+
+        })
+    </script>
+
+
+
+    <script>
+
+        function divOnClick(e)
+        {
+            var elem = document.getElementsByClassName('intro_appear');
+            for (var i = 0; i < elem.length; i++)
+            {
+                closeOnClick(elem[i].id);
+            }
+            // alert(1);
+            var di = document.getElementById(e);
+            // alert(di.className + "111" + e);
+            di.style.display = 'flex';
+            // di.className = 'intro_appear';
+            // alert(di.className + "--" + di.style.display);
+            setTimeout(function (){
+                var di = document.getElementById(e);
+                di.className = 'intro_appear';
+            }, 1);
+            setTimeout(function (){
+                di = document.getElementById(e + "info");
+                di.style.display = 'block';
+            }, 1000);
+
+        }
+
+        function closeOnClick(e)
+        {
+            var d = document.getElementById(e + "info");
+            d.style.display = 'none';
+            d = document.getElementById(e);
+            // d.style.backgroundColor = 'transparent';
+            d.className = 'intro';
+            setTimeout(function (){
+                d.style.display = 'none';
+            }, 1000);
+        }
+
+    </script>
+</body>
+</html>

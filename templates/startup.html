@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIGA-home</title>
+
+    <style>
+        .bjimg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            object-fit: cover;
+            opacity: 12%;
+        }
+
+
+        .btn {
+          background: #eb94d0;
+          /* 创建渐变 */
+          background-image: -webkit-linear-gradient(top, #eb94d0, #2079b0);
+          background-image: -moz-linear-gradient(top, #eb94d0, #2079b0);
+          background-image: -ms-linear-gradient(top, #eb94d0, #2079b0);
+          background-image: -o-linear-gradient(top, #eb94d0, #2079b0);
+          background-image: linear-gradient(to bottom, #eb94d0, #2079b0);
+          /* 给按钮添加圆角 */
+          -webkit-border-radius: 28;
+          -moz-border-radius: 28;
+          border-radius: 28px;
+          text-shadow: 3px 2px 1px #9daef5;
+          -webkit-box-shadow: 6px 5px 24px #666666;
+          -moz-box-shadow: 6px 5px 24px #666666;
+          box-shadow: 6px 5px 24px #666666;
+          font-family: Arial;
+          color: #fafafa;
+          font-size: 27px;
+          padding: 19px;
+          text-decoration: none;
+        }
+        /* 悬停样式 */
+        .btn:hover {
+          background: #2079b0;
+          background-image: -webkit-linear-gradient(top, #2079b0, #eb94d0);
+          background-image: -moz-linear-gradient(top, #2079b0, #eb94d0);
+          background-image: -ms-linear-gradient(top, #2079b0, #eb94d0);
+          background-image: -o-linear-gradient(top, #2079b0, #eb94d0);
+          background-image: linear-gradient(to bottom, #2079b0, #eb94d0);
+          text-decoration: none;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+    <video src="/static/startback2_1.mp4" class="bjimg" autoplay loop muted></video>
+    <h1 align="center";  style="color: darkslateblue;font-family: 华文楷体, serif; font-size: 78px; line-height: 35px; letter-spacing: 10px; text-shadow: 0 0 1px black">歌声转换</h1>
+    <h1 align="center";  style="color: darkslateblue;font-family: 'Comic Sans MS', serif; font-size: 56px; line-height: 35px; letter-spacing: 10px; text-shadow: 0 0 1px black">Singing Voice Conversion</h1>
+    <div style="color: black; font-family: 华文楷体, 华文宋体; font-size: 24px; margin-left: 88px; margin-bottom: -30px; margin-top: 65px;">使用示例</div>
+    <div style="display: flex;">
+        <div style="flex:1;">
+            <video controls="controls" src="/static/demo.mp4" style="width: 620px; height: 450px; margin-left: 88px;"></video>
+            <div>
+                <a href="./readme.html" target="_blank" style="font-family: 华文楷体, 华文宋体; margin-left: 88px; color: black; font-size: 20px;">如果你想查看文本版README，请点击这里</a>
+            </div>
+        </div>
+        <div style="flex:1; font-family: 华文楷体, 华文宋体; border:1px solid white; border-radius: 20px; height: 460px; margin-right: 88px; margin-left: 50px; margin-top: 30px; padding-left: 20px;">
+            <div style="font-size:20px; font-family: 华文楷体, 华文宋体, 宋体; width: 690px; margin-right: 20px; margin-top: 10px;">
+                歌声转换技术是一项集声音分析，模型转换，艺术创作于一体的先进音频处理技术。歌声转换技术可以在保持歌曲内容不变的前提下，实现音色的转换，不仅保留了原唱者声音的精髓，更融入了目标音色的特点。
+            </div>
+            <div style="font-family: 华文楷体, 华文宋体; color: darkseagreen; font-size: 18px; margin-left: 42px; margin-top: 10px; margin-bottom: 10px;">
+                ------------------------------------------------------------------------------------------------------------
+            </div>
+            <div style="display: flex;">
+                <div style="flex:2; margin-top: 10px; margin-left: 60px;">
+                    <img src="/static/icon/audio_icon.png" style="height: 50px; width: 50px;"/>
+                    <p style="font-size: 20px; font-weight: bold; margin-top: 0px;">
+                        良好的使用体验
+                    </p>
+                    <p style="font-size: 18px; margin-left: 0px; margin-top: -15px;">
+                        ● 多种音色选择<br>● 音色，成品预览 <br>● 配备文字，视频使用教程
+                    </p>
+                </div>
+                <div style="flex:2; margin-top: 10px; margin-left: 20px;">
+                    <img src="/static/icon/火箭.png" style="height: 48px; width: 48px;"/>
+                    <p style="font-size: 20px; font-weight: bold; margin-top: 0px;">
+                        优秀的算法性能
+                    </p>
+                    <p style="font-size: 18px; margin-left: 0px; margin-top: -15px;">
+                        ● 稳定的系统性能<br>● 突出的完成质量 <br>● 离线使用，适用于各种设备
+                    </p>
+                </div>
+            </div>
+
+
+            <button class="btn" style="vertical-align: middle; display: block; margin: auto; margin-top: 40px;" onclick="getStartOnClick()">Get Start</button>
+        </div>
+    </div>
+
+    <script>
+        function getStartOnClick()
+        {
+            window.location.href="index.html";
+        }
+    </script>
+</body>
+</html>

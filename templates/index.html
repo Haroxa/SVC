@@ -1,33 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>SVC</title>
+    <title>VIGA</title>
 
 <!--    把之前用来初始化的函数都删掉了，因为不会更新页面了-->
 <!--    主要修改的地方就是把转换和载入模型的按钮类型从submit改为了button，然后用函数结合ajax向后端传数据-->
-
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <!--    不用导入jquery了！！！-->
 
     <style>
-        .back{
-            position: fixed;  /*将图片固定，不随页面滚动*/
-            margin-top: -100px;
-            margin-left: -100px;
-            opacity: 0.10;  /*修改透明度*/
-            height: 115%;
-            width: 111%;
-            z-index: -1;  /*将图片放在最底层*/
-            /*background-size: cover;*/
+        .bjimg {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            object-fit: cover;
+            opacity: 12%;
         }
+
+        .top{
+             /* 设置宽度高度背景颜色 */
+            height: auto; /*高度改为自动高度*/
+            width:102%;
+            margin-left: -15px;
+            background: slategray;
+            position: fixed; /*固定在顶部*/
+            top: 0;/*离顶部的距离为0*/
+            margin-bottom: 5px;
+        }
+
+        .top ul{
+            /* 清除ul标签的默认样式 */
+            width: auto;/*宽度也改为自动*/
+            list-style-type: none;
+            white-space:nowrap;
+            overflow: hidden;
+            margin-left: 80%;
+            /* margin-top: 0;          */
+            padding: 0;
+
+        }
+        .top li {
+            float:left; /* 使li内容横向浮动，即横向排列  */
+            margin-right:2%;  /* 两个li之间的距离*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top li a{
+           /* 设置链接内容显示的格式*/
+            display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
+            color:white;
+            text-align: center;
+            padding: 3px;
+            overflow: hidden;
+            text-decoration: none; /* 去除下划线 */
+
+        }
+        .top li a:hover{
+            /* 鼠标选中时背景变为黑色 */
+            background-color: darkseagreen;
+        }
+
         .cards {
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 18px 18px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
-            width: 1530px;
+            width: 1250px;
             /*text-align: center;*/
             margin-left: auto;
             margin-right: auto;
-            border:2px solid;
+            border:3px solid;
             border-radius: 10px;
             border-color: gainsboro;
             padding-top:10px;
@@ -40,9 +85,9 @@
             width: 1430px;
         }
         .ima{
-            height: 150px;
-            width: 256px;
-            padding-left: 26px;
+            height: 120px;
+            width: 200px;
+            padding-left: 35px;
         }
 
         .bor{
@@ -62,7 +107,8 @@
         .au{
             margin-left: 15px;
             margin-top: 15px;
-            width: 1400px;
+            width: 1150px;
+            height: 40px;
         }
 
         input[type="file"]{
@@ -77,11 +123,12 @@
 
         .bu{
             background-color: royalblue;
-            color:white;
-            width: 1450px;
+            color: white;
+            width: 1170px;
             height: 30px;
             border:0;
             font-size: 22px;
+            font-family: 华文楷体, 华文宋体;
             /*font-weight: bold;*/
             letter-spacing: 8px;
             box-sizing: content-box;
@@ -100,6 +147,77 @@
         .choice_label{
             font-size: 18px;
             vertical-align:middle;
+        }
+
+        .sidebar {
+            float: left;
+            width: 100px;
+            margin-left: -100px;
+            margin-top: -13px;
+            height: 808px;
+            background-color: #2c3e50;
+            overflow: hidden;
+            transition: 0.8s all;
+        }
+
+        .side {
+            margin-left: -10px;
+        }
+
+        /*靠边*/
+        .sidebar ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*去点*/
+        .sidebar ul li {
+            list-style: none;
+        }
+
+        /*去下划线*/
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            height: 80px;
+            width: 100%;
+            font-size: 40px;
+            line-height: 80px;
+            text-align: center;
+            display: block;
+            transition: 0.6s all;
+        }
+
+        .sidebar ul li a:hover {
+            background: #95a5a6;
+        }
+
+        .btn {
+            float: left;
+            padding: 0 10px;
+            font-size: 40px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-family: Ionicons;
+            cursor: pointer;
+        }
+
+        .btn:before {
+            display: inline-block;
+            background: url("/static/icon/导航栏.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
+        }
+
+        .btnc:before {
+            display: inline-block;
+            background: url("/static/icon/返回.png") no-repeat 0 0;
+            background-size: 100%;
+            content: "";
+            width: 20px;
+            height: 20px;
         }
 
 
@@ -125,55 +243,104 @@
             z-index: 1001;
         }
 
+        .butn {
+            padding-left: 20px; /* 在按钮左侧添加一些空间以容纳图标 */
+            background: url(/static/icon/转换.png) no-repeat center;
+            background-size: 30px 30px; /* 设置图标的大小 */
+            width: 45px;
+            height: 45px;
+            border-radius: 80%;
+            background-color: snow;
+        }
+
+        /*.butn:hover::after{*/
+        /*    content: "转换"*/
+        /*}*/
+
     </style>
 
 </head>
 
-<body style="font-family: Arial; transform: scale(0.91); padding-left: 5px">
-    <img src="/static/background.jpg" class="back"/>
+<body style="font-family: 华文楷体, 华文宋体, 微软雅黑;  padding-left: 5px; ">
+<video src="/static/startback3_1.mp4" class="bjimg" autoplay loop muted></video>
 <!--    背景图-->
+        <audio class="music" id="music1" src="/static/audio/Adele.mp3" loop></audio>
+        <audio class="music" id="music2" src="/static/audio/Justin_Bieber.mp3" loop  ></audio>
+        <audio class="music" id="music3" src="/static/audio/Taylor_Swift.mp3" loop ></audio>
+        <audio class="music" id="music4" src="/static/audio/Trump.mp3" loop ></audio>
+        <audio class="music" id="music5" src="/static/audio/Adele.mp3" loop ></audio>
+<!--    <h1 align="center" style = " line-height: 80%; margin-top: -40px">-->
+<!--        歌声转换——Singing Voice Conversion-->
+<!--    </h1>-->
+<!--    <div align="center"  style = " line-height: 80%;">-->
+<!--        成员：周豪，张一卓，黄若煊，陈肇伟，陈筱筱-->
+<!--    </div>-->
 
-    <h1 align="center" style = " line-height: 80%; margin-top: -40px">
-        歌声转换——Singing Voice Conversion
-    </h1>
-    <div align="center"  style = " line-height: 80%;">
-        成员：周豪，张一卓，黄若煊，陈肇伟，陈筱筱
-    </div>
+        <div class="sidebar">
+            <ul>
+                <li><a href="startup.html">
+                    <img src="/static/icon/首页.png" style="width: 40px; height: 40px;"/>
+                    <p style="margin-top: -62px; font-size: 18px;">首页</p>
+                </a></li>
+                <li><a class="ion-ios-game-controller-b" href="readme.html" target="_blank">
+                    <img src="/static/icon/使用文档.png" style="width: 30px; height: 30px;"/>
+                    <p style="margin-top: -55px; font-size: 18px; font-family: Consolas">README</p>
+                </a></li>
+                <li><a class="ion-social-twitter" href="voice.html" target="_blank">
+                    <img src="/static/icon/音符.png" style="width: 35px; height: 35px; margin-left: -5px;"/>
+                    <p style="margin-top: -50px; font-size: 18px; margin-left: -5px;">音色</p>
+                </a></li>
+                <li><a class="ion-social-twitter" target="_blank" href="video.html">
+                    <img src="/static/icon/视频.png" style="width: 35px; height: 35px; margin-left: -5px;"/>
+                    <p style="margin-top: -60px; font-size: 18px; margin-left: -5px;">视频教程</p>
+                </a></li>
 
+            </ul>
+        </div>
+        <a class="btn"></a>
+        <div class="top" style="margin-left: -50px;">
+            <ul>
+                <li><a href="startup.html">首页</a></li>
+                <li><a href="voice.html" target="_blank">音色介绍</a></li>
+                <li><a href="video.html" target="_blank">视频教程</a></li>
+                <li><a href="readme.html" target="_blank">README教程</a></li>
+            </ul>
+        </div>
 
-        <div class="cards" style="margin-top: 10px">
-            <div style="margin-left: 15px; margin-bottom: 10px">
-                欢迎使用音色转换算法（SVC），您可以在提供的五种音色模型中选择一种作为目标音色，然后确认模型，随后可上传您想转换的歌声，点击转换按钮即可。推理设备采用cpu，转换时间可能较长，请耐心等待。
+        <div class="cards" style="margin-top: 62px;">
+            <div style="margin-left: 16px; margin-right: 16px; font-weight: bold; margin-bottom: 10px; font-size: 18px;">
+                欢迎使用音色转换算法（SVC），您可以确认一种音色模型，随后可上传您想转换的音频，点击转换按钮即可。推理设备采用cpu，转换时间可能较长，请耐心等待。（其他信息可由左侧导航栏查看）。
             </div>
 
 
             <div class="bor" style="padding-top: 12px">
 
                 <div style=" margin-left: -20px; margin-top: -9px">
-                    <label class="bor1" style="font-size: 20px;">音色选择</label>
+                    <span class="bor1" style="font-size: 20px; font-weight: bold">音色选择</span>
+                    <span style="font-weight: bold; font-size: 17px; margin-left: -12px;">可点击下方图片试听音色效果</span>
                 </div>
 
 <!--                载入音色选择的图片，图片的格式利用ima统一处理-->
                 <div class="image">
-                    <img src="/static/Adele.jpg" class="ima"/>
-                    <img src="/static/Justin_Bieber.jpg" class="ima"/>
-                    <img src="/static/Taylor_switf.jpg" class="ima"/>
-                    <img src="/static/Trump.jpg" class="ima"/>
-                    <img src="/static/voice_5.png" class="ima"/>
+                    <img src="/static/Adele.jpg" class="ima" onclick="imageOnClick('music1')"/>
+                    <img src="/static/Justin_Bieber.jpg" class="ima" onclick="imageOnClick('music2')"/>
+                    <img src="/static/Taylor_switf.jpg" class="ima" onclick="imageOnClick('music3')"/>
+                    <img src="/static/Trump.jpg" class="ima" onclick="imageOnClick('music4')"/>
+                    <img src="/static/voice_5.png" class="ima" onclick="imageOnClick('music5')"/>
                 </div>
 
 <!--                表单分成了两部分，该部分会向后端提供音色的选择-->
                 <form method="POST" id="form1" action="/load_model" >
 <!--                借助表格来控制radio间距-->
-                    <div style="margin-left:20px; margin-bottom: -25px; margin-top: -18px">
+                    <div style="margin-left:0px; margin-bottom: -25px; margin-top: -18px">
                         <table  style="border-spacing: 25px">
                             <tbody>
                                 <tr>
-                                    <td style = "width: 256px;"><input type = "radio" id = "ad" name = "voice" value = "Adele" class="choice"> <label for = "ad" class="choice_label">Adele</label></td>
-                                    <td style = "width: 256px;"><input type = "radio" id = "ju" name = "voice" value = "Justin Bieber" class="choice"> <label for = "ju" class="choice_label">Justin Bieber</label></td>
-                                    <td style = "width: 256px;"><input type = "radio" id = "ta" name = "voice" value = "Taylor Swift" class="choice"> <label for = "ta" class="choice_label">Taylor</label></td>
-                                    <td style = "width: 256px;"><input type = "radio" id = "tr" name = "voice" value = "Trump" class="choice"> <label for = "tr" class="choice_label">Trump</label></td>
-                                    <td style = "width: 256px;"><input type = "radio" id = "me" name = "voice" value = "Melody" class="choice"> <label for = "me" class="choice_label">Melody（member）</label></td>
+                                    <td style = "width: 210px;"><input type = "radio" id = "ad" name = "voice" value = "Adele" class="choice"> <label for = "ad" class="choice_label">Adele</label></td>
+                                    <td style = "width: 210px;"><input type = "radio" id = "ju" name = "voice" value = "Justin Bieber" class="choice"> <label for = "ju" class="choice_label">Justin Bieber</label></td>
+                                    <td style = "width: 200px;"><input type = "radio" id = "ta" name = "voice" value = "Taylor Swift" class="choice"> <label for = "ta" class="choice_label">Taylor</label></td>
+                                    <td style = "width: 210px;"><input type = "radio" id = "tr" name = "voice" value = "Trump" class="choice"> <label for = "tr" class="choice_label">Trump</label></td>
+                                    <td style = "width: 210px; "><input type = "radio" id = "me" name = "voice" value = "Melody" class="choice"> <label for = "me" class="choice_label">Melody（member）</label></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -181,25 +348,18 @@
 
 <!--                模型载入提交按钮-->
 <!--                    这里改了类型，按下会执行下面的showProgress函数-->
-                    <p  style="margin-left: 25px"><input type="button" name="submit" value="确认载入模型" class="bu" style="width: 500px; margin-left: 335px; margin-right: 15px;" onclick="showProgress()" >
+                    <p  style="margin-left: 25px"><input type="button" name="submit"  value="确认载入模型" class="bu" style="width: 300px; margin-left: 360px; margin-right: 15px;" onclick="showProgress()" >
                         <!--                        当前模型的提示信息-->
-                        <span style="font-family: Arial; font-size: 20px">
+                        <span style="font-family: 华文楷体, 华文宋体; font-size: 20px">
                             当前模型：
                         </span>
 
 <!--                        因为不用更新页面，直接用一个span就行，也方便我后面的函数获取这个span的值并修改-->
-                        <span style="font-family: Arial; font-size: 20px" id="model">
+                        <span style="font-family: 华文楷体, 华文宋体; font-size: 20px" id="model">
                             无
                         </span>
                     </p>
 
-<!--                    进度条的代码，平时不显示，只有载入模型的时候显示-->
-<!--                    <div id="overlay">-->
-<!--                        <div id="popup">-->
-<!--                            <p>正在推理，请稍等...</p>-->
-<!--                            <progress id="progressBar" value="0" max="98"></progress>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </form>
             </div>
 
@@ -215,72 +375,99 @@
                 </div>
             </div>
             <div class="bor">
-                <label style="font-size: 16px">变调（可以是正负整数。由于男女歌手音域的差异，需要通过适当变调来提升音色的相似性。12即代表一个8度，注：在音色为女声，待转音频为男声时，变调采用正整数，反之则采用负整数。）</label>
-                <input type="text" placeholder="为空将默认为0" name="voice_change" id="voice_change" style="width: 1470px; height: 20px; border:1px solid #ccc; border-radius: 3px; margin-bottom:8px; margin-top: 8px">
+                <label style="font-size: 18px; font-weight: bold">变调（可以是正负整数。由于男女歌手音域的差异，需要通过适当变调来提升音色的相似性。12即代表一个8度，注：在音色为女声，待转音频为男声时，变调采用正整数，反之则采用负整数。）</label>
+                <input type="text" placeholder="为空将默认为0" name="voice_change" id="voice_change" style="width: 1200px; height: 20px; border:1px solid #ccc; border-radius: 3px; margin-bottom:8px; margin-top: 8px">
             </div>
 
 
 <!--            一个tag-->
-            <span style="overflow: auto; border-right:1px solid #ccc; border-left:1px solid #ccc; border-top:1px solid #ccc; margin-left: 15px; font-size: 18px">音频上传及转换</span><br>
+            <span style="overflow: auto; border-right:1px solid #ccc; border-left:1px solid #ccc; border-top:1px solid #ccc; margin-left: 15px; font-size: 20px; font-weight: bold">音频上传及转换</span><br>
 
 
-            <div class="bor" style="margin-top: -2px; padding: 3px">
+            <div class="bor" style="margin-top: -2px; padding: 3px; width: 1210px; display: flex">
+                <div style="border-right-width: 1px; border-right-style: dashed; border-right-color: #2c3e50; width: 50%">
 
-                <div class="bor" style="margin-top: 5px; margin-left: 5px; background-color: aliceblue">
+                    <div class="bor" style="margin-top: 5px; margin-left: 55px; width: 500px; background-color: aliceblue; ">
 <!--                    同样是tag-->
-                    <div style=" margin-left: -20px; margin-top: -2px">
-                        <label class="bor1" style="font-size: 20px; ">音频上传</label>
+                        <div style=" margin-left: -20px; margin-top: -2px">
+                            <label class="bor1" style="font-size: 20px; font-weight: bold;">音频上传</label>
+                        </div>
+
+    <!--                    音乐图标-->
+                        <img src="/static/icon/audio_icon.png" style="margin-left: 46%; height: 40px; width: 40px; margin-top: -15px" />
+
+    <!--                    有关上传音频的文本提示-->
+                        <label style="text-align: center; font-size: 16px;line-height: 70%;">
+                            <p style="margin-top: -2px">
+                                <span>请点击下方</span><span style="font-weight: bold; font-family: 华文楷体, 华文宋体">「上传音频文件」</span><span>，上传要转换的音频</span>
+                            </p>
+                            <p>（仅支持mp3和wav格式）</p>
+                        </label>
+
+    <!--                    用button覆盖原本的选择文件按钮，实现美化-->
+    <!--                    其实是把选择文件按钮设置成了透明的-->
+                        <button style="margin-left: 29%; height: 45px; width: 190px; padding: 0px; background-color: skyblue; border-color: #53a4f0">
+                            <div style="padding-top: 10px">
+                                <label style="color: white; font-size: 20px; font-weight: 550; font-family: 'Microsoft YaHei UI'; letter-spacing: 2px;">上传音频文件</label>
+                            </div>
+                            <div style="margin-top: -40.5px">
+                                <input type="file" id="file" name="file" accept=".mp3, .wav" onchange="onInputFileChange()">
+    <!--                            在选择文件的按钮上在上onInputFileChange函数，可以实现音频同步预览-->
+                            </div>
+                        </button>
+
+    <!--                    输入的音频播放器，src直接改为空的，会利用函数更改src-->
+                        <audio controls class="au" src ="" id="audio" style="width: 430px;">
+    <!--                        接受mp3和wav格式的音频-->
+                            <source id="input_file" type="audio/mpeg">
+                            <source id="input_file1" type="audio/wav">
+                        </audio>
                     </div>
 
-<!--                    音乐图标-->
-                    <img src="/static/audio_icon.png" style="margin-left: 48.5%; height: 40px; width: 40px; margin-top: -15px" />
 
-<!--                    有关上传音频的文本提示-->
-                    <label style="text-align: center; font-size: 16px;line-height: 70%;">
-                        <p style="margin-top: -2px">
-                            <span>请点击下方</span><span style="font-weight: bold">「上传音频文件」</span><span>，上传要转换的音频</span>
-                        </p>
-                        <p>（仅支持mp3和wav格式）</p>
-                    </label>
-
-<!--                    用button覆盖原本的选择文件按钮，实现美化-->
-<!--                    其实是把选择文件按钮设置成了透明的-->
-                    <button style="margin-left: 43%; height: 50px; width: 200px; padding: 0px; background-color: skyblue; border-color: #53a4f0">
-                        <div style="padding-top: 10px">
-                            <label style="color: white; font-size: 20px; font-weight: 550; font-family: 'Microsoft YaHei UI'; letter-spacing: 3px;">上传音频文件</label>
-                        </div>
-                        <div style="margin-top: -40.5px">
-                            <input type="file" id="file" name="file" accept=".mp3, .wav" onchange="onInputFileChange()">
-<!--                            在选择文件的按钮上在上onInputFileChange函数，可以实现音频同步预览-->
-                        </div>
-                    </button>
-
-<!--                    输入的音频播放器，src直接改为空的，会利用函数更改src-->
-                    <audio controls class="au" src ="" id="audio">
-<!--                        接受mp3和wav格式的音频-->
-                        <source id="input_file" type="audio/mpeg">
-                        <source id="input_file1" type="audio/wav">
-                    </audio>
                 </div>
+<!--                <div role="button" id="transform" class="tta_no_click_outline" aria-label="转换" tabindex="0">-->
+<!--                    <svg viewBox="-1 -1 18 18" width="20px" height="20px" focusable="false"><use xlink:href="#swapIcon"></use></svg>-->
+<!--                        <use xlink:href="/static/icon/火箭.png"></use>-->
+<!--                    </svg>-->
+<!--                </div>-->
+
+<!--                <div class="main"><button class="button" style="vertical-align:middle"><a href="#" class="icon-button twitter"><i class="icon-twitter"></i><span>aa</span></a></button>-->
+<!--                  <div class="text"><strong>转换</strong></div>-->
+<!--                </div>-->
+
+<!--&lt;!&ndash;                转换按钮，改了类型，并不直接提交表单，会调用changeOnClick函数&ndash;&gt;-->
+<!--                <p  style="margin-left: 25px"><input type="button" name="submit" value="转换" class="bu" onclick="changeOnClick()" ></p>-->
 
 
-<!--                转换按钮，改了类型，并不直接提交表单，会调用changeOnClick函数-->
-                <p  style="margin-left: 25px"><input type="button" name="submit" value="转换" class="bu" onclick="changeOnClick()" ></p>
+                <input type="button" class="butn" style="margin-left: -22px; margin-top: 80px;" onclick="changeOnClick()">
+<!--                <button class="butn" title="转换"  onclick="changeOnClick()"></button>-->
+<!--                </input>-->
 
-
-                <div class="bor" style="margin-top: 5px; margin-left: 5px; padding-bottom: 30px; background-color: honeydew;">
+                <div class="bor" style="margin-top: 7px; margin-left: 25px; width: 500px; padding-bottom: 10px; background-color: honeydew;">
 <!--                    一个tag-->
                     <div style=" margin-left: -20px; margin-top: -2px">
-                        <label class="bor1" style="font-size: 20px;">成果输出</label>
+                        <label class="bor1" style="font-size: 20px; font-weight: bold">成果输出</label>
                     </div>
 
+                    <img src="/static/icon/音乐.png" style="width: 50px; height: 50px; margin-left: 48%"/>
+
+                    <p style="margin-left: 140px; margin-top: -2px; font-size: 16px;">转换成功后，可点击播放键试听效果<br></p>
+                    <p style="margin-top: -12px; font-size: 16px; margin-left: 175px;">也可点击右方按键进行下载</p>
 <!--                直接用一个audio，初始设置为空，之后会根据函数修改-->
-                    <div>
-                        <audio controls src="" id="output" class="au"></audio>
+                    <div style="margin-top: -8px; margin-bottom: -100px; margin-left: 20px;">
+                        <audio controls src="" id="output" class="au" style="width: 430px;"></audio>
                     </div>
                 </div>
             </div>
         </form>
+            <script type="text/javascript">
+            $('.btn').on('click',function () {
+                $('.btn').toggleClass('btnc');
+                $('.sidebar').toggleClass('side');
+
+            })
+        </script>
     <script>
         function onInputFileChange()
         {
@@ -291,6 +478,53 @@
             document.getElementById('audio').src = URL.createObjectURL(file);
         }
 
+        window.onload = function(){
+            var audio = document.getElementById('music1');
+            audio.volume=0.80;
+            audio.pause();//打开页面时无音乐
+            audio = document.getElementById('music2');
+            audio.pause();
+            audio.volume=0.85;
+            audio = document.getElementById('music3');
+            audio.pause();
+            audio = document.getElementById('music4');
+            audio.pause();
+            audio.volume=1.2;
+            audio = document.getElementById('music5');
+            audio.pause();
+        }
+
+        function imageOnClick(e)
+        {
+            var temp = document.getElementsByClassName('music');
+            var audio = document.getElementById(e);
+            for (var i = 0; i < temp.length; i++)
+            {
+                // alert(temp[i].paused + "_" + audio.paused);
+                if (audio.paused && !temp[i].paused)
+                {
+                    temp[i].pause();
+                    temp[i].currentTime = 0;
+                }
+            }
+            // var temp = "music" e;
+            // var audio = document.getElementById(e);
+            if (audio.paused) {
+                // for (var i = 1; i <= 5; i++, t++)
+                // {
+                //     if ("music" + i != temp && document.getElementById("music" + t).paused == False)
+                //     {
+                //         document.getElementById("music" + i).pause();
+                //     }
+                // }
+                audio.play();
+                // document.getElementById('musicImg').src="images/play.png";
+            }else{
+                audio.pause();
+                audio.currentTime = 0;//音乐从头播放
+                // document.getElementById('musicImg').src="images/stop.png";
+            }
+        }
 
         function submitOnClick()
         {
@@ -386,10 +620,6 @@
                     document.getElementById("model").innerHTML = voice_temp;
                     alert(voice_temp + "声线模型已载入完成!!!");
                 }
-                else
-                {
-                    alert(voice_temp + "声线模型载入失败!!!");
-                }
             })
         }
 
@@ -434,20 +664,14 @@
                             progressBar.value = res.time;
                             if (res.time == 100)
                             {
+                                //如果后端已经完成了
                                 document.getElementById('overlay').style.display = 'none';
                                 clearInterval(sitv);//这个是结束这个函数，不再查询后端进度
                             }
                         }
-                        else
-                        {
-                            alert("转换发生错误!!!");
-                            document.getElementById('overlay').style.display = 'none';
-                            clearInterval(sitv);//这个是结束这个函数，不再查询后端进度
-                        }
                     })
-                }, 5000);// 每5秒查询一次后台进度
-                //如果后端已经完成了
-                            
+                }, 1000);// 每0.5秒查询一次后台进度
+
 
 
                 // 这里ajax传输数据的代码变了！！！
