@@ -5,7 +5,9 @@ set start_time=%time%
 echo 开始时间: %start_time%
 
 echo 正在创建虚拟环境...
-python -m venv workenv
+env\python -m venv workenv
+
+echo 正在进入虚拟环境...
 call workenv\Scripts\activate.bat
 python.exe -m pip install --upgrade pip
 
